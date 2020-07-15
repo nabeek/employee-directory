@@ -5,22 +5,15 @@ function Search(props) {
   return (
     <div className="columns is-centered">
       <div className="column is-4">
-        <div className="field is-grouped">
+        <div className="field">
           <input
             value={props.value}
             onChange={props.handleInputChange}
             name="search"
             type="text"
             className="input"
+            placeholder="Search employee names"
           />
-          <div className="control">
-            <button
-              className="button is-primary"
-              onClick={props.handleFormSubmit}
-            >
-              Search
-            </button>
-          </div>
         </div>
       </div>
     </div>

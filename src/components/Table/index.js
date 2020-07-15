@@ -1,7 +1,17 @@
 import React from "react";
 import "./style.css";
 
-function SearchResults(props) {
+function EmployeeList(props) {
+  // Use a ternary to assign a particular set of employees, and then map that list
+  // This reduces the amount of code needed in the tbody
+
+  let results;
+  props.filteredEmployees[0] !== undefined
+    ? (results = props.filteredEmployees)
+    : (results = props.employees);
+
+  // Return the structured table and map the employees based on initial load or filtered list
+
   return (
     <div className="columns is-centered">
       <div className="column is-10">
@@ -17,7 +27,7 @@ function SearchResults(props) {
             </tr>
           </thead>
           <tbody>
-            {props.results.map(result => (
+            {results.map(result => (
               <tr key={result.login.salt}>
                 <td>
                   <img alt={result.name.first} src={result.picture.large} />
@@ -39,4 +49,4 @@ function SearchResults(props) {
     </div>
   );
 }
-export default SearchResults;
+export default EmployeeList;
