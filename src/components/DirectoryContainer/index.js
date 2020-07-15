@@ -7,20 +7,8 @@ class DirectoryContainer extends Component {
   state = {
     employees: [],
     filteredEmployees: [],
-    sort: "default",
+    sort: "ascending",
   };
-
-  // const sorting = {
-  //   ascending: {
-  //     fn: (a, b) => a.net_worth - b.net_worth
-  //   },
-  //   descending: {
-  //     fn: (a, b) => b.net_worth - a.net_worth
-  //   },
-  //   default: {
-  //     fn: (a, b) => a
-  //   }
-  // };
 
   componentDidMount() {
     this.loadEmployees();
@@ -33,29 +21,56 @@ class DirectoryContainer extends Component {
   };
 
   handleInputChange = event => {
-    const filter = event.target.value;
+    const value = event.target.value;
     const filteredList = this.state.employees.filter(employee => {
-      let values =
+      let names =
         employee.name.first.toLowerCase() +
         " " +
         employee.name.last.toLowerCase();
 
       // The API responses for first and last name are searched using the input value
-      // Any match is returned, regardless of value length
-      if (values.indexOf(filter.toLowerCase()) !== -1) {
+      // Any match is returned, regardless of value length, but no matches will return the full list
+      if (names.indexOf(value.toLowerCase()) !== -1) {
         return employee;
       }
     });
 
     // Replace the array of filteredEmployees (initially empty) with the list above
+
     this.setState({
-      filteredEmployees: filteredList,
+      filteredEmployees: !value ? [] : filteredList,
     });
   };
 
   handleSort = () => {
-    const currentSort = this.state.sort;
-    let nextSort;
+    let results;
+    this.state.filteredEmployees[0] !== undefined
+      ? (results = this.state.filteredEmployees)
+      : (results = this.state.employees);
+
+    switch (this.state.sort) {
+      case "ascending":
+        const ascendingList = results.sort((a, b) => {
+          return a.name.first < b.name.first ? -1 : 1;
+        });
+        this.setState({
+          employees: ascendingList,
+        });
+        this.setState({ sort: "descending" });
+        break;
+      case "descending":
+        const descendingList = results.sort((a, b) => {
+          return a.name.first < b.name.first ? 1 : -1;
+        });
+        this.setState({
+          employees: descendingList,
+        });
+        this.setState({ sort: "ascending" });
+        break;
+      default:
+        console.log("Error");
+        break;
+    }
   };
 
   render() {
@@ -66,6 +81,7 @@ class DirectoryContainer extends Component {
         <Table
           employees={this.state.employees}
           filteredEmployees={this.state.filteredEmployees}
+          handleSort={this.handleSort}
         />
       </div>
     );

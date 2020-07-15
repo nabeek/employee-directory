@@ -19,7 +19,9 @@ function EmployeeList(props) {
           <thead>
             <tr>
               <th>Headshot</th>
-              <th>Name</th>
+              <th onClick={props.handleSort} style={{ cursor: "pointer" }}>
+                Name
+              </th>
               <th>Email</th>
               <th>Location</th>
               <th>Cell Number</th>
