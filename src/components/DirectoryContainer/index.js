@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import API from "../../utils/API";
-import Container from "../Container";
-import SearchForm from "../SearchForm";
-import SearchResults from "../SearchResults";
+import Search from "../Search";
+import Table from "../Table";
 
 class DirectoryContainer extends Component {
   state = {
@@ -16,19 +15,37 @@ class DirectoryContainer extends Component {
 
   loadEmployees = () => {
     API.getEmployees().then(res => {
-      console.log(res.data.results);
       this.setState({ results: res.data.results });
     });
   };
 
+  handleInputChange = event => {
+    const value = event.target.value;
+    this.setState({
+      search: value,
+    });
+  };
+
+  handleFormSubmit = event => {
+    event.preventDefault();
+    this.loadEmployees(this.state.search);
+  };
+
   render() {
     return (
-      <div>
-        <Container style={{ minHeight: "80%" }}>
-          <h1 className="text-center">Employee Directory</h1>
-          <SearchResults results={this.state.results} />
-        </Container>
-      </div>
+      <section className="hero is-fullheight">
+        <div className="hero-body">
+          <div className="container">
+            <h1 className="title is-1 has-text-centered">Employee Directory</h1>
+            <Search
+              value={this.state.search}
+              handleInputChange={this.handleInputChange}
+              handleFormSubmit={this.handleFormSubmit}
+            />
+            <Table results={this.state.results} search={this.state.search} />
+          </div>
+        </div>
+      </section>
     );
   }
 }
