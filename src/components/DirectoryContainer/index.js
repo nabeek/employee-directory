@@ -36,39 +36,40 @@ class DirectoryContainer extends Component {
     });
 
     // Replace the array of filteredEmployees (initially empty) with the list above
-
     this.setState({
       filteredEmployees: !value ? [] : filteredList,
     });
   };
 
   handleSort = () => {
-    let results;
+    // Use a ternary to select a specific array of employees, to enable sorting after filtering
+    let employees;
     this.state.filteredEmployees[0] !== undefined
-      ? (results = this.state.filteredEmployees)
-      : (results = this.state.employees);
+      ? (employees = this.state.filteredEmployees)
+      : (employees = this.state.employees);
 
+    // Switch statement alternates between ascending/descending sorting by using state
     switch (this.state.sort) {
       case "ascending":
-        const ascendingList = results.sort((a, b) => {
+        const ascendingList = employees.sort((a, b) => {
           return a.name.first < b.name.first ? -1 : 1;
         });
         this.setState({
-          employees: ascendingList,
+          filteredEmployees: ascendingList,
         });
         this.setState({ sort: "descending" });
         break;
       case "descending":
-        const descendingList = results.sort((a, b) => {
+        const descendingList = employees.sort((a, b) => {
           return a.name.first < b.name.first ? 1 : -1;
         });
         this.setState({
-          employees: descendingList,
+          filteredEmployees: descendingList,
         });
         this.setState({ sort: "ascending" });
         break;
       default:
-        console.log("Error");
+        console.log("An error has occurred.");
         break;
     }
   };
@@ -76,7 +77,6 @@ class DirectoryContainer extends Component {
   render() {
     return (
       <div className="container">
-        <h1 className="title is-1 has-text-centered">Employee Directory</h1>
         <Search handleInputChange={this.handleInputChange} />
         <Table
           employees={this.state.employees}
