@@ -6,7 +6,7 @@ This application is a simple, React-based employee directory. The application ut
 
 ## Usage
 
-Employee Directory is live [here](#).
+Employee Directory is live [here](https://nabeek.github.io/employee-directory/).
 
 ## Screenshot
 
