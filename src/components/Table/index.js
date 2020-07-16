@@ -28,7 +28,7 @@ function EmployeeList(props) {
               <th>Email</th>
               <th>Location</th>
               <th>Cell Number</th>
-              <th>Age</th>
+              <th style={{ textAlign: "center" }}>Age</th>
             </tr>
           </thead>
           <tbody>
@@ -46,7 +46,7 @@ function EmployeeList(props) {
                   {result.location.city}, {result.location.state}
                 </td>
                 <td>{result.cell}</td>
-                <td>{result.dob.age}</td>
+                <td style={{ textAlign: "center" }}>{result.dob.age}</td>
               </tr>
             ))}
           </tbody>
